@@ -1,0 +1,563 @@
+/* Global Resets and Base Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5F5; /* Soft, light grayish-white background */
+    color: #4A4A4A; /* Default body text color */
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app-container {
+    max-width: 800px;
+    margin: 20px auto; /* Added top/bottom margin */
+    padding: 20px;
+    width: 90%; /* Responsive width */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* Typography */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    animation: fadeInUp 0.6s ease-out both;
+    position: relative; /* For user display positioning */
+}
+
+header h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; /* Bold */
+    font-size: 2.2em; /* Adjusted size */
+    color: #333333; /* Dark gray */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px; /* Adjusted for user display */
+}
+
+.section-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; /* Bold */
+    font-size: 1.3em;
+    color: #333333; /* Dark gray */
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px; /* Increased bottom margin */
+}
+
+/* General Container Styling */
+.mode-selector, 
+.output-params-selector, 
+.initial-input-container,
+.chat-interface,
+.refined-output-area,
+.auth-form-container { /* Added auth container */
+    margin-bottom: 25px;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px; /* Rounded containers */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+/* Button Base Styles */
+button {
+    font-family: 'Poppins', sans-serif;
+    border-radius: 8px; /* Rounded edges */
+    padding: 10px 20px;
+    font-size: 0.95em;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1); /* Subtle shadow for 3D effect */
+    text-align: center;
+    position: relative; /* For pseudo-element positioning */
+    overflow: hidden; /* To contain the shimmer effect */
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start off-screen to the left */
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: left 0.6s ease; /* Control shimmer speed */
+}
+
+button:hover::before {
+    left: 100%; /* Sweep across to the right */
+}
+
+
+button:hover {
+    transform: translateY(-2px); /* Slight elevation on hover */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+button:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button:disabled {
+    background-color: #BDBDBD !important; /* Neutral disabled color, important to override specifics */
+    color: #757575 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+button:disabled::before {
+    display: none; /* No shimmer on disabled buttons */
+}
+
+/* Primary Action Buttons */
+.initial-input-form button,
+.input-area button,
+.refined-output-area .start-new-button,
+.mode-button.active,
+.auth-button { /* Added auth button */
+    background-color: #2F1B41; /* Dark eggplant purple */
+    color: white;
+}
+
+.initial-input-form button:hover,
+.input-area button:hover,
+.refined-output-area .start-new-button:hover,
+.mode-button.active:hover,
+.auth-button:hover { /* Added auth button hover */
+    background-color: #4A2F6C; /* Slightly lighter eggplant for hover */
+}
+
+/* Secondary Action Buttons */
+.mode-button,
+.reset-button,
+.auth-toggle-button, /* Added auth toggle button */
+.logout-button { /* Added logout button */
+    background-color: #E6E6FA; /* Light lavender purple */
+    color: #2F1B41; /* Dark eggplant text */
+}
+
+.mode-button:hover,
+.reset-button:hover,
+.auth-toggle-button:hover, /* Added auth toggle button hover */
+.logout-button:hover { /* Added logout button hover */
+    background-color: #D8D8F0; /* Slightly darker lavender for hover */
+}
+
+
+/* Authentication Specific Styles */
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Take up available space */
+}
+
+.auth-form-container {
+    width: 100%;
+    max-width: 400px; /* Limit width of auth form */
+    text-align: center;
+}
+
+.auth-input {
+    width: calc(100% - 30px); /* Full width minus padding */
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #D0D0D0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #B0B0E0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06), 0 0 0 3px rgba(176, 176, 224, 0.25);
+}
+
+.auth-button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.auth-toggle-button {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    color: #2F1B41;
+    box-shadow: none;
+    font-size: 0.9em;
+}
+.auth-toggle-button:hover {
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.user-display {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9em;
+    color: #666;
+}
+.user-display span {
+    font-family: 'Poppins', sans-serif;
+}
+
+.logout-button {
+    padding: 8px 15px;
+    font-size: 0.85em;
+}
+
+.loading-message.auth-loading {
+    padding: 20px;
+    text-align: center;
+    font-size: 1.1em;
+    color: #333;
+}
+
+/* Mode Selector Specifics */
+.mode-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.mode-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 160px; /* Increased min-width */
+    padding: 15px 20px; /* Adjusted padding */
+}
+
+.mode-button .mode-display-name {
+    font-size: 1.1em;
+    font-weight: 700; /* Bolder display name */
+    margin-bottom: 8px;
+}
+
+.mode-button .mode-description {
+    font-size: 0.85em;
+    color: #666666; /* Medium gray for description */
+}
+
+.mode-button.active .mode-description {
+    color: #E0E0E0; /* Lighter gray for description on active button */
+}
+
+/* Parameter Controls (Tone Selector) */
+.param-controls-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.param-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.param-control label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: #666666; /* Medium gray */
+}
+
+.param-control select {
+    padding: 10px 15px;
+    border-radius: 8px; /* Rounded corners */
+    border: 1px solid #D0D0D0;
+    background-color: #fff;
+    font-size: 0.95em;
+    min-width: 180px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Subtle shadow */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.param-control select:focus {
+    outline: none;
+    border-color: #B0B0E0; /* Light purple focus */
+    box-shadow: 0 0 0 3px rgba(176, 176, 224, 0.25); /* Light purple glow */
+}
+
+/* Initial Input Form */
+.initial-input-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.initial-input-form textarea,
+.input-area textarea {
+    padding: 12px 15px;
+    border-radius: 8px; /* Rounded corners */
+    border: 1px solid #D0D0D0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    resize: vertical;
+    min-height: 80px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06); /* Inner subtle shadow */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.initial-input-form textarea:focus,
+.input-area textarea:focus {
+    outline: none;
+    border-color: #B0B0E0; /* Light purple focus */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06), 0 0 0 3px rgba(176, 176, 224, 0.25); /* Light purple glow */
+}
+
+
+/* Chat Interface */
+.conversation-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 15px;
+    min-height: 200px;
+    max-height: 400px; /* Increased max-height */
+    border-radius: 8px;
+    background-color: #FDFDFD; /* Slightly off-white for chat background */
+}
+
+.message {
+    margin-bottom: 12px;
+    padding: 12px 18px; /* Increased padding */
+    border-radius: 18px;
+    max-width: 85%; /* Slightly increased max-width */
+    word-wrap: break-word;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+    animation: fadeInUp 0.5s ease-out both; /* Animate each message */
+}
+
+.message.user {
+    background-color: #E6E6FA; /* Light lavender */
+    color: #2F1B41; /* Dark eggplant text */
+    margin-left: auto;
+    border-bottom-right-radius: 6px;
+}
+
+.message.ai {
+    background-color: #FFFFFF; /* White for bot responses */
+    color: #4A4A4A; /* Dark gray text */
+    margin-right: auto;
+    border: 1px solid #ECECEC; /* Subtle border for AI messages */
+    border-bottom-left-radius: 6px;
+}
+
+.message p {
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.typing-indicator p {
+    font-style: italic;
+    color: #777;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.input-area textarea {
+    min-height: 50px; /* For chat input */
+    flex-grow: 1;
+}
+
+/* Refined Output Area */
+.refined-output-area .section-title {
+    color: #2F1B41; /* Eggplant for refined results title */
+    font-size: 1.5em;
+}
+
+.output-container {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    animation: fadeInUp 0.5s ease-out 0.2s both; 
+}
+
+
+.output-heading {
+    font-family: 'Poppins', sans-serif;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.corrected-input-container .output-heading {
+    color: #5A9C5A; /* A distinct green for corrected input */
+}
+.corrected-input-container .output-heading::before {
+    content: '🔍 ';
+}
+
+
+.better-output-container .output-heading {
+    color: #4A2F6C; /* Darker shade of purple */
+}
+.better-output-container .output-heading::before {
+    content: '🌟 ';
+}
+
+.best-output-container .output-heading {
+    color: #2F1B41; /* Eggplant */
+}
+.best-output-container .output-heading::before {
+    content: '🏆 ';
+}
+
+.refined-output-area pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: #F8F8F8; /* Light background for pre */
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #EAEAEA;
+    font-size: 0.9em;
+    line-height: 1.5;
+    max-height: 300px;
+    overflow-y: auto;
+    color: #333;
+}
+
+.reset-button { 
+    margin-top: 15px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+ }
+
+
+/* Error Messages */
+.error-message {
+    color: #721c24; /* Dark red text */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Reddish border */
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.95em;
+    animation: fadeInUp 0.5s ease-out both;
+}
+.error-message.auth-error { /* Specific for auth errors */
+    margin-top: 10px;
+    margin-bottom: 0; /* No extra bottom margin if it's the last element in form */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .app-container {
+        width: 95%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 15px;
+    }
+    header h1 {
+        font-size: 1.8em;
+    }
+    .user-display {
+        position: static; /* Stack in header on mobile */
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .user-display .logout-button {
+        margin-top: 5px;
+    }
+    .section-title, .refined-output-area .section-title {
+        font-size: 1.15em;
+    }
+
+    .mode-selector, 
+    .output-params-selector, 
+    .initial-input-container,
+    .chat-interface,
+    .refined-output-area,
+    .auth-form-container {
+        padding: 20px;
+    }
+
+    .mode-buttons-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .mode-button {
+        width: 100%;
+        box-sizing: border-box;
+        min-width: auto;
+    }
+    .param-controls-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .param-control {
+        justify-content: space-between;
+    }
+    .param-control select {
+        flex-grow: 1;
+        min-width: auto;
+    }
+    .initial-input-form button, 
+    .input-area button,
+    .refined-output-area .start-new-button,
+    .reset-button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 12px;
+    }
+    .input-area {
+        flex-direction: column;
+    }
+    .message {
+        max-width: 90%;
+    }
+    .output-heading {
+        font-size: 1.1em;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
