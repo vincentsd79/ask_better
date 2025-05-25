@@ -58,18 +58,29 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
 
   return (
     <div style={{ maxWidth: 500, margin: '40px auto', padding: 32, background: '#fff', borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.07)' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 16 }}>
+      <div style={{ marginBottom: 24 }}>
         <h1
-          style={{ margin: 0, textAlign: 'center', textShadow: '2px 2px 8px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.10)', color: '#2F1B41', cursor: 'pointer', fontFamily: 'Poppins, sans-serif', fontWeight: 700 }}
+          style={{ 
+            margin: 0, 
+            textAlign: 'left', 
+            textShadow: '2px 2px 8px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.10)', 
+            color: '#2F1B41', 
+            cursor: 'pointer', 
+            fontFamily: 'Poppins, sans-serif', 
+            fontWeight: 700,
+            fontSize: '2.5rem',
+            marginBottom: 16,
+            transition: 'color 0.2s ease',
+          }}
           onClick={handleGoHome}
+          onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#4A2F6C'}
+          onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#2F1B41'}
         >
-          Ask Better
+          ASK BETTER
         </h1>
-        <Button onClick={handleGoHome} variant="secondary" style={{ marginTop: 12, marginBottom: 18 }}>
-          Back to Home
-        </Button>
+
       </div>
-      <h2 style={{ textAlign: 'center', marginBottom: 24 }}>Profile</h2>
+
       <div style={{ fontSize: '1.1em', marginBottom: 16 }}>
         <strong>Name:</strong> {user.name || '-'}
       </div>
@@ -129,9 +140,14 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
           </div>
         </div>
       )}
-      <Button className="logout-button" onClick={handleLogout} variant="secondary" style={{ width: '100%', marginTop: 32 }}>
-        Logout
-      </Button>
+      <div style={{ display: 'flex', gap: 12, marginTop: 32 }}>
+        <Button onClick={handleGoHome} variant="secondary" style={{ flex: 1 }}>
+          Back to Home
+        </Button>
+        <Button className="logout-button" onClick={handleLogout} variant="secondary" style={{ flex: 1 }}>
+          Logout
+        </Button>
+      </div>
     </div>
   );
 };

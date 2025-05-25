@@ -48,6 +48,12 @@ const App: React.FC = () => {
     return () => window.removeEventListener('open-profile', handler);
   }, [navigate]);
 
+  // Handle mode change
+  const handleModeChange = () => {
+    setSelectedMode(null);
+    handleReset();
+  };
+
   // Check if AI service is ready
   const aiReady = aiService.isReady();
 
@@ -73,7 +79,7 @@ const App: React.FC = () => {
   if (!aiReady) {
     return (
       <div className="app-container">
-        <Header />
+        <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
         <div className="auth-form-container">
           <h2 className="section-title">API Key Configuration Required</h2>
           <p>The VITE_GEMINI_API_KEY environment variable is not configured. Please set it up to use the application.</p>
@@ -81,12 +87,6 @@ const App: React.FC = () => {
       </div>
     );
   }
-
-  // Handle mode change
-  const handleModeChange = () => {
-    setSelectedMode(null);
-    handleReset();
-  };
 
   // Handle start new session
   const handleStartNew = async () => {
@@ -112,7 +112,7 @@ const App: React.FC = () => {
         element={
           <ErrorBoundary>
             <div className="app-container">
-              <Header />
+              <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
 
               {/* Mode Selection */}
               {!selectedMode ? (

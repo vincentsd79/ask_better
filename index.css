@@ -86,6 +86,87 @@ header h1 {
     animation: fadeInUp 0.6s ease-out both;
 }
 
+/* App Introduction Styles */
+.app-introduction {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e6e6fa 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(47, 27, 65, 0.1);
+}
+
+.app-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #2F1B41;
+    margin: 0 0 10px 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.app-subtitle {
+    font-size: 1.2em;
+    color: #666;
+    margin: 0 0 25px 0;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.intro-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.intro-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.how-it-works {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border-left: 4px solid #2F1B41;
+}
+
+.how-it-works h3 {
+    color: #2F1B41;
+    margin: 0 0 15px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.steps-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #555;
+}
+
+.steps-list li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.benefits {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.benefits-text {
+    margin: 0;
+    line-height: 1.8;
+    color: #444;
+    font-size: 1em;
+}
+
 /* Button Base Styles */
 button,
 .button {
@@ -689,6 +770,28 @@ button:disabled::before,
     .refined-output-area,
     .auth-form-container {
         padding: 20px;
+    }
+
+    .app-introduction {
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .app-title {
+        font-size: 2em;
+    }
+
+    .app-subtitle {
+        font-size: 1.1em;
+    }
+
+    .intro-description {
+        font-size: 1em;
+    }
+
+    .how-it-works,
+    .benefits {
+        padding: 15px;
     }
 
     .mode-buttons-container {
