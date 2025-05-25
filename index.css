@@ -24,6 +24,22 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    contain: layout style;
+    will-change: auto;
+}
+
+.mode-content {
+    contain: layout style;
+    animation: fadeInContent 0.3s ease-out both;
+}
+
+.chat-interface {
+    contain: layout style;
+}
+
+.refined-output-area {
+    contain: layout style;
+    animation: slideInUp 0.4s ease-out both;
 }
 
 /* Typography */
@@ -71,7 +87,8 @@ header h1 {
 }
 
 /* Button Base Styles */
-button {
+button,
+.button {
     font-family: 'Poppins', sans-serif;
     border-radius: 8px; /* Rounded edges */
     padding: 10px 20px;
@@ -84,9 +101,12 @@ button {
     text-align: center;
     position: relative; /* For pseudo-element positioning */
     overflow: hidden; /* To contain the shimmer effect */
+    background: none;
+    color: inherit;
 }
 
-button::before {
+button::before,
+.button::before {
     content: '';
     position: absolute;
     top: 0;
@@ -97,22 +117,27 @@ button::before {
     transition: left 0.6s ease; /* Control shimmer speed */
 }
 
-button:hover::before {
+button:hover::before,
+.button:hover::before {
     left: 100%; /* Sweep across to the right */
 }
 
 
-button:hover {
+button:hover,
+.button:hover {
     transform: translateY(-2px); /* Slight elevation on hover */
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 }
 
-button:active {
+button:active,
+.button:active {
     transform: translateY(0px);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-button:disabled {
+button:disabled,
+.button:disabled,
+.button--disabled {
     background-color: #BDBDBD !important; /* Neutral disabled color, important to override specifics */
     color: #757575 !important;
     cursor: not-allowed;
@@ -120,7 +145,9 @@ button:disabled {
     transform: none;
 }
 
-button:disabled::before {
+button:disabled::before,
+.button:disabled::before,
+.button--disabled::before {
     display: none; /* No shimmer on disabled buttons */
 }
 
@@ -129,7 +156,8 @@ button:disabled::before {
 .input-area button,
 .refined-output-area .start-new-button,
 .mode-button.active,
-.auth-button { /* Added auth button */
+.auth-button,
+.button--primary { /* Added generic primary button class */
     background-color: #2F1B41; /* Dark eggplant purple */
     color: white;
 }
@@ -138,7 +166,8 @@ button:disabled::before {
 .input-area button:hover,
 .refined-output-area .start-new-button:hover,
 .mode-button.active:hover,
-.auth-button:hover { /* Added auth button hover */
+.auth-button:hover,
+.button--primary:hover { /* Added generic primary button hover */
     background-color: #4A2F6C; /* Slightly lighter eggplant for hover */
 }
 
@@ -146,7 +175,8 @@ button:disabled::before {
 .mode-button,
 .reset-button,
 .auth-toggle-button, /* Added auth toggle button */
-.logout-button { /* Added logout button */
+.logout-button, /* Added logout button */
+.button--secondary { /* Added generic secondary button class */
     background-color: #E6E6FA; /* Light lavender purple */
     color: #2F1B41; /* Dark eggplant text */
 }
@@ -154,7 +184,8 @@ button:disabled::before {
 .mode-button:hover,
 .reset-button:hover,
 .auth-toggle-button:hover, /* Added auth toggle button hover */
-.logout-button:hover { /* Added logout button hover */
+.logout-button:hover, /* Added logout button hover */
+.button--secondary:hover { /* Added generic secondary button hover */
     background-color: #D8D8F0; /* Slightly darker lavender for hover */
 }
 
@@ -478,6 +509,150 @@ button:disabled::before {
 }
 
 
+/* New Component-based Classes */
+
+/* Input Component Styles */
+.input,
+.textarea {
+    width: calc(100% - 30px);
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #D0D0D0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: #B0B0E0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06), 0 0 0 3px rgba(176, 176, 224, 0.25);
+}
+
+.input--disabled,
+.textarea--disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Select Component Styles */
+.select {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #D0D0D0;
+    background-color: #fff;
+    font-size: 0.95em;
+    min-width: 180px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.select:focus {
+    outline: none;
+    border-color: #B0B0E0;
+    box-shadow: 0 0 0 3px rgba(176, 176, 224, 0.25);
+}
+
+.select--disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Error Boundary Styles */
+.error-boundary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding: 20px;
+}
+
+.error-boundary-content {
+    text-align: center;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.error-boundary-content h2 {
+    color: #721c24;
+    margin-bottom: 15px;
+}
+
+.error-boundary-content details {
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 12px;
+    padding: 0;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .app-container {
@@ -559,5 +734,135 @@ button:disabled::before {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes fadeInContent {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Performance Optimizations */
+.app-container {
+    contain: layout style;
+    will-change: auto;
+}
+
+.mode-content {
+    contain: layout style;
+    animation: fadeInContent 0.3s ease-out both;
+}
+
+.chat-interface {
+    contain: layout style;
+}
+
+.refined-output-area {
+    contain: layout style;
+    animation: slideInUp 0.4s ease-out both;
+}
+
+/* Loading States */
+.loading-content {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Focus and interaction improvements */
+.input-field:focus,
+.input-textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .button:hover {
+        transform: none;
+    }
+    
+    .input-field:focus,
+    .input-textarea:focus {
+        transform: none;
+    }
+}
+
+/* Accessibility improvements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .button-primary {
+        border: 2px solid #000;
+    }
+    
+    .input-field,
+    .input-textarea {
+        border: 2px solid #000;
+    }
+}
+
+/* Print styles */
+@media print {
+    .button,
+    .auth-container,
+    .mode-selection-container {
+        display: none;
+    }
+    
+    .refined-output-area {
+        page-break-inside: avoid;
     }
 }

@@ -1,5 +1,0 @@
-{
-  "name": " Ask Better: Interactive Refinement Tool",
-  "description": "An application that helps users refine vague requests into well-formed prompts or messages through an interactive dialogue, using different modes for various use cases (AI prompts, human communication, coding, marketing).",
-  "requestFramePermissions": []
-}
