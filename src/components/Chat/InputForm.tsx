@@ -11,6 +11,7 @@ interface InputFormProps {
   isLoading: boolean;
   error: string | null;
   showReset: boolean;
+  sectionTitle?: string;
 }
 
 export const InputForm = React.memo<InputFormProps>(({
@@ -22,12 +23,13 @@ export const InputForm = React.memo<InputFormProps>(({
   isLoading,
   error,
   showReset,
+  sectionTitle = 'Your Input',
 }) => {
   const currentMode = MODES[selectedMode];
 
   return (
     <div className="initial-input-container">
-      <h3 className="section-title">Your Input</h3>
+      <h3 className="section-title">{sectionTitle}</h3>
       <form className="initial-input-form" onSubmit={onSubmit}>
         <Input
           value={userInput}

@@ -31,16 +31,19 @@ const PromptBetterPage: React.FC<ModePageProps> = ({
 
   return (
     <>
-      <InputForm
-        selectedMode={MODES.PROMPT_BETTER.id}
-        userInput={userInput}
-        onInputChange={onInputChange}
-        onSubmit={handleSubmit}
-        onReset={onReset}
-        isLoading={isLoading}
-        error={error}
-        showReset={chatVisible}
-      />
+      {!chatVisible && (
+        <InputForm
+          selectedMode={MODES.PROMPT_BETTER.id}
+          userInput={userInput}
+          onInputChange={onInputChange}
+          onSubmit={handleSubmit}
+          onReset={onReset}
+          isLoading={isLoading}
+          error={error}
+          showReset={chatVisible}
+          sectionTitle="Your Prompt"
+        />
+      )}
 
       {chatVisible && (
         <ChatInterface

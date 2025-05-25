@@ -31,16 +31,19 @@ const Marketing101Page: React.FC<ModePageProps> = ({
 
   return (
     <>
-      <InputForm
-        selectedMode={MODES.MARKETING_101.id}
-        userInput={userInput}
-        onInputChange={onInputChange}
-        onSubmit={handleSubmit}
-        onReset={onReset}
-        isLoading={isLoading}
-        error={error}
-        showReset={chatVisible}
-      />
+      {!chatVisible && (
+        <InputForm
+          selectedMode={MODES.MARKETING_101.id}
+          userInput={userInput}
+          onInputChange={onInputChange}
+          onSubmit={handleSubmit}
+          onReset={onReset}
+          isLoading={isLoading}
+          error={error}
+          showReset={chatVisible}
+          sectionTitle="Your Prompt"
+        />
+      )}
 
       {chatVisible && (
         <ChatInterface

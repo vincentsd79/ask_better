@@ -1,15 +1,18 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { AuthPage } from './components/Auth/AuthPage';
 import { Header } from './components/Auth/Header';
 import { ModeSelection } from './components/ModeSelection/ModeSelection';
 import { ModeHeader } from './components/ModeSelection/ModeHeader';
 import { LoadingSpinner } from './components/ui';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import ProfilePage from './components/Auth/ProfilePage.tsx';
 
 import { useAuth } from './hooks/useAuth';
 import { useAppState } from './hooks/useAppState';
 import { useMode } from './hooks/useMode';
 import { aiService } from './services/ai';
+import { saveChatHistory } from './services/firebase';
 
 // Lazy load mode components for better performance
 const ModeContent = lazy(() => import('./components/ModeContent/ModeContent.tsx'));
@@ -36,6 +39,14 @@ const App: React.FC = () => {
     handleReset,
     setUserInput,
   } = useMode(selectedMode || '');
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = () => navigate('/profile');
+    window.addEventListener('open-profile', handler);
+    return () => window.removeEventListener('open-profile', handler);
+  }, [navigate]);
 
   // Check if AI service is ready
   const aiReady = aiService.isReady();
@@ -78,50 +89,68 @@ const App: React.FC = () => {
   };
 
   // Handle start new session
-  const handleStartNew = () => {
+  const handleStartNew = async () => {
+    if (user && messages && messages.length > 0) {
+      try {
+        await saveChatHistory(user.uid, messages);
+      } catch (e) {
+        console.error('Failed to save chat history:', e);
+      }
+    }
     handleReset();
     resetAppState();
   };
 
   return (
-    <ErrorBoundary>
-      <div className="app-container">
-        <Header />
+    <Routes>
+      <Route
+        path="/profile"
+        element={<ProfilePage user={user} />}
+      />
+      <Route
+        path="*"
+        element={
+          <ErrorBoundary>
+            <div className="app-container">
+              <Header />
 
-        {/* Mode Selection */}
-        {!selectedMode ? (
-          <ModeSelection onModeSelect={setSelectedMode} />
-        ) : (
-          <>
-            {/* Selected Mode Interface */}
-            <ModeHeader
-              selectedMode={selectedMode}
-              selectedTone={selectedTone}
-              onToneChange={setSelectedTone}
-              onModeChange={handleModeChange}
-            />
+              {/* Mode Selection */}
+              {!selectedMode ? (
+                <ModeSelection onModeSelect={setSelectedMode} />
+              ) : (
+                <>
+                  {/* Selected Mode Interface */}
+                  <ModeHeader
+                    selectedMode={selectedMode}
+                    selectedTone={selectedTone}
+                    onToneChange={setSelectedTone}
+                    onModeChange={handleModeChange}
+                  />
 
-            {/* Mode-specific content with lazy loading */}
-            <Suspense fallback={<LoadingSpinner message="Loading mode..." />}>
-              <ModeContent
-                selectedMode={selectedMode}
-                userInput={userInput}
-                onInputChange={setUserInput}
-                onSubmit={handleSubmit}
-                onSendMessage={handleSendMessage}
-                onReset={handleReset}
-                onStartNew={handleStartNew}
-                messages={messages}
-                chatVisible={chatVisible}
-                refinedOutputs={refinedOutputs}
-                isLoading={conversationLoading}
-                error={conversationError}
-              />
-            </Suspense>
-          </>
-        )}
-      </div>
-    </ErrorBoundary>
+                  {/* Mode-specific content with lazy loading */}
+                  <Suspense fallback={<LoadingSpinner message="Loading mode..." />}>
+                    <ModeContent
+                      selectedMode={selectedMode}
+                      userInput={userInput}
+                      onInputChange={setUserInput}
+                      onSubmit={handleSubmit}
+                      onSendMessage={handleSendMessage}
+                      onReset={handleReset}
+                      onStartNew={handleStartNew}
+                      messages={messages}
+                      chatVisible={chatVisible}
+                      refinedOutputs={refinedOutputs}
+                      isLoading={conversationLoading}
+                      error={conversationError}
+                    />
+                  </Suspense>
+                </>
+              )}
+            </div>
+          </ErrorBoundary>
+        }
+      />
+    </Routes>
   );
 };
 

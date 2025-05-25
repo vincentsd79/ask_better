@@ -31,16 +31,19 @@ const AskBetterPage: React.FC<ModePageProps> = ({
 
   return (
     <>
-      <InputForm
-        selectedMode={MODES.ASK_BETTER.id}
-        userInput={userInput}
-        onInputChange={onInputChange}
-        onSubmit={handleSubmit}
-        onReset={onReset}
-        isLoading={isLoading}
-        error={error}
-        showReset={chatVisible}
-      />
+      {!chatVisible && (
+        <InputForm
+          selectedMode={MODES.ASK_BETTER.id}
+          userInput={userInput}
+          onInputChange={onInputChange}
+          onSubmit={handleSubmit}
+          onReset={onReset}
+          isLoading={isLoading}
+          error={error}
+          showReset={chatVisible}
+          sectionTitle="Your Prompt"
+        />
+      )}
 
       {chatVisible && (
         <ChatInterface

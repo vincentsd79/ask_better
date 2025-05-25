@@ -8,7 +8,7 @@ import {
   User,
   sendPasswordResetEmail
 } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
 // Firebase configuration (imported from root config)
 import { firebaseConfig } from '~/firebaseConfig.js';
@@ -81,4 +81,20 @@ export class AuthService {
       return { success: false, error: error.message };
     }
   }
+}
+
+export async function saveChatHistory(userId: string, chatLog: any[], timestamp: number = Date.now()) {
+  const userRef = doc(db, 'users', userId);
+  await updateDoc(userRef, {
+    chatHistory: arrayUnion({ chatLog, timestamp })
+  });
+}
+
+export async function getChatHistory(userId: string) {
+  const userRef = doc(db, 'users', userId);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    return userSnap.data().chatHistory || [];
+  }
+  return [];
 }

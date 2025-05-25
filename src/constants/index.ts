@@ -1,7 +1,7 @@
 import { ToneOption, ModeConfig } from '../types';
 
 // API Configuration
-export const API_MODEL_NAME = 'gemini-2.0-flash-001';
+export const API_MODEL_NAME = 'gemini-2.5-flash-preview-05-20';
 export const CORRECTED_INPUT_PREFIX = "CORRECTED_INPUT:";
 export const BETTER_OUTPUT_PREFIX = "BETTER_OUTPUT:";
 export const BEST_OUTPUT_PREFIX = "BEST_OUTPUT:";

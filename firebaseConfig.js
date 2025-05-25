@@ -5,12 +5,12 @@
 
 // Your web app's Firebase configuration
 export const firebaseConfig = {
-  apiKey: "AIzaSyCc5dtqUBRFoVXvTkCIWGORwrN_8mPIemI",
-  authDomain: "looper-2143e.firebaseapp.com",
-  projectId: "looper-2143e",
-  storageBucket: "looper-2143e.appspot.com", // Corrected domain for storage bucket
-  messagingSenderId: "1092738489158",
-  appId: "1:1092738489158:web:587c0a2d04739cf766e347"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase - This is done in index.tsx now
