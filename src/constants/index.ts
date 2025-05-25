@@ -21,7 +21,7 @@ export const MODES: Record<string, ModeConfig> = {
   PROMPT_BETTER: {
     id: 'PROMPT_BETTER',
     displayName: '🚀 Prompt Better',
-    description: 'Refine prompts for AI systems (e.g., LLMs, image generators).',
+    description: 'Get help writing better prompts for AI tools (like ChatGPT, image generators, etc.)',
     inputPlaceholder: 'e.g., Generate a story about a friendly robot learning to paint...',
     systemInstruction: (tone: string) => `You are an expert Prompt Engineer. Your goal is to help the user craft high-quality prompts for an AI system.
 The desired tone for the prompts is ${tone}.
@@ -35,7 +35,7 @@ Ensure both \`${BETTER_OUTPUT_PREFIX}\` and \`${BEST_OUTPUT_PREFIX}\` prefixes a
   ASK_BETTER: {
     id: 'ASK_BETTER',
     displayName: '💬 Ask Better',
-    description: 'Formulate clear and effective questions or messages for people.',
+    description: 'Get help asking clear, effective questions for any situation.',
     inputPlaceholder: 'e.g., Ask my manager for feedback on the recent X project...',
     systemInstruction: (tone: string) => `You are a helpful communication assistant. Your goal is to help the user formulate clear, effective, and context-rich questions or messages for another person.
 The desired tone for the messages is ${tone}.
@@ -50,7 +50,7 @@ Ensure all used prefixes (\`${CORRECTED_INPUT_PREFIX}\`, \`${BETTER_OUTPUT_PREFI
   CODING_MODE: {
     id: 'CODING_MODE',
     displayName: '💻 Coding Mode',
-    description: 'Craft precise technical questions or coding prompts.',
+    description: 'Get help writing or improving your coding questions and prompts.',
     inputPlaceholder: 'e.g., Help me debug a Python script for data analysis that gives a KeyError...',
     systemInstruction: (tone: string) => `You are an expert technical assistant. The user has a programming or technical query.
 The desired tone for the output is ${tone}.
@@ -64,7 +64,7 @@ Ensure both \`${BETTER_OUTPUT_PREFIX}\` and \`${BEST_OUTPUT_PREFIX}\` prefixes a
   MARKETING_101: {
     id: 'MARKETING_101',
     displayName: '📈 Marketing 101',
-    description: 'Develop insightful marketing questions.',
+    description: 'Get help crafting marketing questions, ideas, or strategies.',
     inputPlaceholder: 'e.g., Brainstorm taglines for a new eco-friendly cleaning product targeting millennials...',
     systemInstruction: (tone: string) => `You are an expert Marketing Strategist. Your goal is to help the user formulate clearer and more effective marketing-related questions they can use for brainstorming, research, or strategy.
 The desired tone for the questions is ${tone}.

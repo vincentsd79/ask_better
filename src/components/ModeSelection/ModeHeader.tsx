@@ -20,37 +20,50 @@ export const ModeHeader: React.FC<ModeHeaderProps> = ({
   return (
     <>
       {/* Mode Title and Change Button */}
-      <div className="mode-selector">
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          marginBottom: '20px'
-        }}>
-          <h2 className="section-title" style={{ marginBottom: 0 }}>
-            {currentMode.displayName}
-          </h2>
-          <Button 
-            className="mode-button active"
-            onClick={onModeChange}
-            variant="primary"
-          >
-            <div className="mode-display-name">Change Mode</div>
-            <div className="mode-description">Select a different mode</div>
-          </Button>
-        </div>
+      <div className="mode-selector" style={{ position: 'relative' }}>
+        <Button 
+          className="mode-button active mode-change-btn-topright"
+          onClick={onModeChange}
+          variant="primary"
+          style={{ width: '80px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
+        >
+          <span style={{ fontWeight: 600, fontSize: '1em' }}>Change Mode</span>
+        </Button>
+        <h2 className="section-title" style={{ marginBottom: 0, textAlign: 'left' }}>
+          {currentMode.displayName}
+        </h2>
       </div>
 
       {/* Tone Selection */}
       <div className="output-params-selector">
-        <h3 className="section-title">Output Parameters</h3>
+        <h3 className="section-title">Select Tone</h3>
         <div className="param-controls-container">
           <div className="param-control">
             <label>Tone:</label>
+            <div className="tone-radio-group">
+              {TONE_OPTIONS.map(option => (
+                <label
+                  key={option.value}
+                  className={`tone-radio${selectedTone === option.value ? ' selected' : ''}`}
+                >
+                  <input
+                    type="radio"
+                    name="tone"
+                    value={option.value}
+                    checked={selectedTone === option.value}
+                    onChange={() => onToneChange(option.value)}
+                    style={{ display: 'none' }}
+                  />
+                  {option.label}
+                </label>
+              ))}
+            </div>
+            {/* Fallback for accessibility: hidden select */}
             <Select
               value={selectedTone}
               onChange={onToneChange}
               options={TONE_OPTIONS}
+              className="tone-select-hidden"
             />
           </div>
         </div>

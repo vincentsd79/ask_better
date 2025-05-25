@@ -9,6 +9,7 @@ export const Input: React.FC<InputProps> = ({
   multiline = false,
   rows = 3,
   className = '',
+  type = 'text',
 }) => {
   const baseClass = multiline ? 'textarea' : 'input';
   const disabledClass = disabled ? `${baseClass}--disabled` : '';
@@ -36,7 +37,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <input
-      type="text"
+      type={type}
       value={value}
       onChange={handleChange}
       placeholder={placeholder}

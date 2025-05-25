@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { User } from 'firebase/auth';
 import { AuthService } from '../services/firebase';
 import { AuthState } from '../types';
+import { db } from '../services/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 export const useAuth = () => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -10,11 +12,22 @@ export const useAuth = () => {
     error: null,
   });
 
+  // Helper to fetch user profile from Firestore
+  const fetchUserProfile = async (user: User | null) => {
+    if (!user) return null;
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    if (userDoc.exists()) {
+      return { ...user, ...userDoc.data() };
+    }
+    return user;
+  };
+
   useEffect(() => {
-    const unsubscribe = AuthService.onAuthStateChanged((user: User | null) => {
+    const unsubscribe = AuthService.onAuthStateChanged(async (user: User | null) => {
+      const userWithProfile = await fetchUserProfile(user);
       setAuthState(prev => ({
         ...prev,
-        user,
+        user: userWithProfile,
         loading: false,
       }));
     });
@@ -34,16 +47,17 @@ export const useAuth = () => {
         error: result.error || 'Sign in failed' 
       }));
     } else {
-      setAuthState(prev => ({ ...prev, loading: false, error: null }));
+      const userWithProfile = await fetchUserProfile(result.user ?? null);
+      setAuthState(prev => ({ ...prev, loading: false, error: null, user: userWithProfile }));
     }
     
     return result;
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (name: string, email: string, password: string) => {
     setAuthState(prev => ({ ...prev, loading: true, error: null }));
     
-    const result = await AuthService.signUp(email, password);
+    const result = await AuthService.signUp(name, email, password);
     
     if (!result.success) {
       setAuthState(prev => ({ 
@@ -78,6 +92,13 @@ export const useAuth = () => {
     setAuthState(prev => ({ ...prev, error: null }));
   };
 
+  const resetPassword = async (email: string) => {
+    setAuthState(prev => ({ ...prev, loading: true, error: null }));
+    const result = await AuthService.resetPassword(email);
+    setAuthState(prev => ({ ...prev, loading: false, error: result.error || null }));
+    return result;
+  };
+
   return {
     user: authState.user,
     loading: authState.loading,
@@ -86,5 +107,6 @@ export const useAuth = () => {
     signUp,
     signOut,
     clearError,
+    resetPassword,
   };
 };

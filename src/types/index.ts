@@ -66,6 +66,7 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'danger';
   type?: 'button' | 'submit' | 'reset';
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export interface InputProps {
@@ -76,6 +77,7 @@ export interface InputProps {
   multiline?: boolean;
   rows?: number;
   className?: string;
+  type?: string;
 }
 
 export interface SelectProps {

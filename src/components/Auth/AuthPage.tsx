@@ -4,19 +4,29 @@ import { useAuth } from '../../hooks/useAuth';
 
 export const AuthPage: React.FC = () => {
   const [authView, setAuthView] = useState<'login' | 'signup'>('login');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [resetSent, setResetSent] = useState(false);
   
-  const { loading, error, signIn, signUp, clearError } = useAuth();
+  const { loading, error, signIn, signUp, clearError, resetPassword } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
-
+    setResetSent(false);
     if (authView === 'login') {
       await signIn(email, password);
     } else {
-      await signUp(email, password);
+      await signUp(name, email, password);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    setResetSent(false);
+    const result = await resetPassword(email);
+    if (result.success) {
+      setResetSent(true);
     }
   };
 
@@ -43,6 +53,14 @@ export const AuthPage: React.FC = () => {
         {error && <ErrorMessage message={error} className="auth-error" />}
 
         <form onSubmit={handleSubmit}>
+          {authView === 'signup' && (
+            <Input
+              value={name}
+              onChange={setName}
+              placeholder="Name"
+              className="auth-input"
+            />
+          )}
           <Input
             value={email}
             onChange={setEmail}
@@ -55,6 +73,7 @@ export const AuthPage: React.FC = () => {
             onChange={setPassword}
             placeholder="Password"
             className="auth-input"
+            type="password"
           />
           
           <Button 
@@ -65,7 +84,23 @@ export const AuthPage: React.FC = () => {
           >
             {loading ? 'Loading...' : (authView === 'login' ? 'Login' : 'Sign Up')}
           </Button>
+          {(authView === 'login' && error && (error.includes('Wrong password') || error.includes('Invalid email or password'))) && (
+            <div style={{ marginBottom: '1rem' }}>
+              <Button
+                className="auth-reset-password-button"
+                variant="secondary"
+                onClick={handleResetPassword}
+                disabled={!email}
+              >
+                Reset Password
+              </Button>
+            </div>
+          )}
         </form>
+
+        {resetSent && (
+          <div className="auth-reset-sent">Password reset email sent! Please check your inbox.</div>
+        )}
 
         <Button
           className="auth-toggle-button"

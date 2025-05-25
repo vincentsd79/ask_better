@@ -271,17 +271,22 @@ button:disabled::before,
 /* Mode Selector Specifics */
 .mode-buttons-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
 }
 
 .mode-button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 160px; /* Increased min-width */
-    padding: 15px 20px; /* Adjusted padding */
+    width: 520px;
+    min-width: 400px;
+    max-width: 100%;
+    padding: 24px 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .mode-button .mode-display-name {
@@ -865,4 +870,67 @@ button:disabled::before,
     .refined-output-area {
         page-break-inside: avoid;
     }
+}
+
+.mode-button.active {
+    max-width: 320px;
+    min-width: 180px;
+    padding: 12px 10px;
+    font-size: 1em;
+}
+
+/* Custom horizontal tone selector */
+.tone-radio-group {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+}
+.tone-radio {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    padding: 8px 18px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 1em;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    margin-bottom: 0;
+}
+.tone-radio.selected, .tone-radio:hover {
+    border-color: #4A2F6C;
+    background: rgba(230, 230, 250, 0.45);
+    box-shadow: 0 6px 32px 0 rgba(74, 47, 108, 0.15);
+}
+.tone-radio input[type="radio"] {
+    margin-right: 6px;
+}
+
+/* Hide the default select for tone */
+.param-control select.tone-select-hidden {
+    display: none;
+}
+
+.mode-change-btn-topright {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    min-width: 0;
+    max-width: 40px;
+    width: 80px;
+    padding: 1px 2px;
+    font-size: 0.88em;
+    box-shadow: 0 2px 8px rgba(74,47,108,0.07);
+    border-radius: 8px;
+    background: rgba(47, 27, 65, 0.92);
+    color: #fff;
+    line-height: 1.1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
