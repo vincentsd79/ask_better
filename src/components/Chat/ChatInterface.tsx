@@ -24,47 +24,81 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(({
     onSendMessage();
   };
 
+  const formatTime = (timestamp?: Date) => {
+    if (!timestamp) return '';
+    return timestamp.toLocaleTimeString([], { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
+
   return (
-    <div className="chat-interface">
-      <h3 className="section-title">Conversation</h3>
-      
-      <div className="conversation-area">
-        {messages.map(message => (
-          <div 
-            key={message.id}
-            className={`message ${message.sender}`}
-          >
-            <p>{message.text}</p>
-          </div>
-        ))}
-        
-        {isLoading && (
-          <div className="message ai typing-indicator">
-            <p>AI is typing...</p>
-          </div>
-        )}
+    <div className="chat-interface-modern">
+      <div className="chat-header">
+        <h3 className="chat-title">Conversation</h3>
+        <span className="message-count">{messages.length} messages</span>
       </div>
       
-      <form onSubmit={handleSubmit} className="input-area">
-        <Input
-          value={userInput}
-          onChange={onInputChange}
-          placeholder="Continue the conversation..."
-          disabled={isLoading}
-          multiline={true}
-          rows={2}
-        />
-        
-        <Button 
-          type="submit"
-          disabled={isLoading || !userInput.trim()}
-          variant="primary"
-        >
-          {isLoading ? 'Processing...' : 'Send'}
-        </Button>
-      </form>
+      <div className="conversation-container">
+        <div className="messages-list">
+          {messages.map((message, index) => (
+            <div 
+              key={message.id}
+              className={`message-wrapper ${message.sender}`}
+            >
+              <div className={`message-bubble ${message.sender}`}>
+                <div className="message-content">
+                  <p>{message.text}</p>
+                </div>
+                                 <div className="message-meta">
+                   <span className="message-time">
+                     {formatTime(message.timestamp || new Date())}
+                   </span>
+                 </div>
+              </div>
+            </div>
+          ))}
+          
+          {isLoading && (
+            <div className="message-wrapper ai">
+              <div className="message-bubble ai typing">
+                <div className="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <p>AI is thinking...</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
       
-      {error && <ErrorMessage message={error} />}
+      <div className="chat-input-container">
+        <form onSubmit={handleSubmit} className="chat-input-form">
+          <div className="input-wrapper">
+            <Input
+              value={userInput}
+              onChange={onInputChange}
+              placeholder="Type your message..."
+              disabled={isLoading}
+              multiline={true}
+              rows={1}
+              className="chat-input"
+            />
+            <Button 
+              type="submit"
+              disabled={isLoading || !userInput.trim()}
+              variant="primary"
+              className="send-button"
+            >
+              {isLoading ? '⏳' : '📤'}
+            </Button>
+          </div>
+        </form>
+        
+        {error && <ErrorMessage message={error} />}
+      </div>
     </div>
   );
 });
