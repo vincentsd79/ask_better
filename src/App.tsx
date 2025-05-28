@@ -4,8 +4,7 @@ import { AuthPage } from './components/Auth/AuthPage';
 import { Header } from './components/Auth/Header';
 import { ModeSelection } from './components/ModeSelection/ModeSelection';
 import { ModeHeader } from './components/ModeSelection/ModeHeader';
-import { LoadingSpinner } from './components/ui';
-import { ThemeToggle } from './components/ui/ThemeToggle';
+import { LoadingSpinner, Footer } from './components/ui';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import ProfilePage from './components/Auth/ProfilePage.tsx';
 
@@ -72,8 +71,12 @@ const AppContent: React.FC = () => {
   if (!user) {
     return (
       <ErrorBoundary>
-        <ThemeToggle />
-        <AuthPage />
+        <div className="app-layout">
+          <div className="app-content">
+            <AuthPage />
+          </div>
+          <Footer />
+        </div>
       </ErrorBoundary>
     );
   }
@@ -81,13 +84,17 @@ const AppContent: React.FC = () => {
   // AI service not ready view
   if (!aiReady) {
     return (
-      <div className="app-container">
-        <ThemeToggle />
-        <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
-        <div className="auth-form-container">
-          <h2 className="section-title">API Key Configuration Required</h2>
-          <p>The VITE_GEMINI_API_KEY environment variable is not configured. Please set it up to use the application.</p>
+      <div className="app-layout">
+        <div className="app-content">
+          <div className="app-container">
+            <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
+            <div className="auth-form-container">
+              <h2 className="section-title">API Key Configuration Required</h2>
+              <p>The VITE_GEMINI_API_KEY environment variable is not configured. Please set it up to use the application.</p>
+            </div>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -110,52 +117,60 @@ const AppContent: React.FC = () => {
       <Route
         path="/profile"
         element={
-          <>
-            <ThemeToggle />
-            <ProfilePage user={user} />
-          </>
+          <ErrorBoundary>
+            <div className="app-layout">
+              <div className="app-content">
+                <ProfilePage user={user} />
+              </div>
+              <Footer />
+            </div>
+          </ErrorBoundary>
         }
       />
       <Route
         path="*"
         element={
           <ErrorBoundary>
-            <div className="app-container">
-              <ThemeToggle />
-              <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
+            <div className="app-layout">
+              <div className="app-content">
+                <div className="app-container">
+                  <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
 
-              {/* Mode Selection */}
-              {!selectedMode ? (
-                <ModeSelection onModeSelect={setSelectedMode} />
-              ) : (
-                <>
-                  {/* Selected Mode Interface */}
-                  <ModeHeader
-                    selectedMode={selectedMode}
-                    selectedTone={selectedTone}
-                    onToneChange={setSelectedTone}
-                    onModeChange={handleModeChange}
-                  />
+                  {/* Mode Selection */}
+                  {!selectedMode ? (
+                    <ModeSelection onModeSelect={setSelectedMode} />
+                  ) : (
+                    <>
+                      {/* Selected Mode Interface */}
+                      <ModeHeader
+                        selectedMode={selectedMode}
+                        selectedTone={selectedTone}
+                        onToneChange={setSelectedTone}
+                        onModeChange={handleModeChange}
+                      />
 
-                  {/* Mode-specific content with lazy loading */}
-                  <Suspense fallback={<LoadingSpinner message="Loading mode..." />}>
-                    <ModeContent
-                      selectedMode={selectedMode}
-                      userInput={userInput}
-                      onInputChange={setUserInput}
-                      onSubmit={handleSubmit}
-                      onSendMessage={handleSendMessage}
-                      onReset={handleReset}
-                      onStartNew={handleStartNew}
-                      messages={messages}
-                      chatVisible={chatVisible}
-                      refinedOutputs={refinedOutputs}
-                      isLoading={conversationLoading}
-                      error={conversationError}
-                    />
-                  </Suspense>
-                </>
-              )}
+                      {/* Mode-specific content with lazy loading */}
+                      <Suspense fallback={<LoadingSpinner message="Loading mode..." />}>
+                        <ModeContent
+                          selectedMode={selectedMode}
+                          userInput={userInput}
+                          onInputChange={setUserInput}
+                          onSubmit={handleSubmit}
+                          onSendMessage={handleSendMessage}
+                          onReset={handleReset}
+                          onStartNew={handleStartNew}
+                          messages={messages}
+                          chatVisible={chatVisible}
+                          refinedOutputs={refinedOutputs}
+                          isLoading={conversationLoading}
+                          error={conversationError}
+                        />
+                      </Suspense>
+                    </>
+                  )}
+                </div>
+              </div>
+              <Footer />
             </div>
           </ErrorBoundary>
         }

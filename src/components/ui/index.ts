@@ -5,3 +5,4 @@ export { Select } from './Select';
 export { ErrorMessage, LoadingSpinner } from './Common';
 export { ErrorBoundary } from './ErrorBoundary';
 export { LanguageSelector } from './LanguageSelector';
+export { Footer } from './Footer';
