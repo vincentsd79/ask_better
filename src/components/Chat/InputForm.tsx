@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button, Input, ErrorMessage } from '../ui';
 import { MODES } from '../../constants';
 
@@ -26,11 +26,21 @@ export const InputForm = React.memo<InputFormProps>(({
   sectionTitle = 'Your Input',
 }) => {
   const currentMode = MODES[selectedMode];
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleEnterPress = () => {
+    if (!userInput.trim() || isLoading) return;
+    
+    // Trigger form submission programmatically
+    if (formRef.current) {
+      formRef.current.requestSubmit();
+    }
+  };
 
   return (
     <div className="initial-input-container">
       <h3 className="section-title">{sectionTitle}</h3>
-      <form className="initial-input-form" onSubmit={onSubmit}>
+      <form ref={formRef} className="initial-input-form" onSubmit={onSubmit}>
         <Input
           value={userInput}
           onChange={onInputChange}
@@ -38,6 +48,7 @@ export const InputForm = React.memo<InputFormProps>(({
           disabled={isLoading}
           multiline={true}
           rows={4}
+          onEnterPress={handleEnterPress}
         />
         
         <div style={{ 

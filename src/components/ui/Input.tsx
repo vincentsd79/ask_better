@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputProps } from '../../types';
 
-export const Input: React.FC<InputProps> = ({
+export const Input = React.forwardRef<HTMLTextAreaElement | HTMLInputElement, InputProps>(({
   value,
   onChange,
   placeholder = '',
@@ -11,7 +11,7 @@ export const Input: React.FC<InputProps> = ({
   className = '',
   type = 'text',
   onEnterPress,
-}) => {
+}, ref) => {
   const baseClass = multiline ? 'textarea' : 'input';
   const disabledClass = disabled ? `${baseClass}--disabled` : '';
   
@@ -33,6 +33,7 @@ export const Input: React.FC<InputProps> = ({
   if (multiline) {
     return (
       <textarea
+        ref={ref as React.Ref<HTMLTextAreaElement>}
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -46,6 +47,7 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <input
+      ref={ref as React.Ref<HTMLInputElement>}
       type={type}
       value={value}
       onChange={handleChange}
@@ -54,4 +56,6 @@ export const Input: React.FC<InputProps> = ({
       className={combinedClassName}
     />
   );
-};
+});
+
+Input.displayName = 'Input';

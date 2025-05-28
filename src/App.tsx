@@ -5,19 +5,21 @@ import { Header } from './components/Auth/Header';
 import { ModeSelection } from './components/ModeSelection/ModeSelection';
 import { ModeHeader } from './components/ModeSelection/ModeHeader';
 import { LoadingSpinner } from './components/ui';
+import { ThemeToggle } from './components/ui/ThemeToggle';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import ProfilePage from './components/Auth/ProfilePage.tsx';
 
 import { useAuth } from './hooks/useAuth';
 import { useAppState } from './hooks/useAppState';
 import { useMode } from './hooks/useMode';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { aiService } from './services/ai';
 import { saveChatHistory } from './services/firebase';
 
 // Lazy load mode components for better performance
 const ModeContent = lazy(() => import('./components/ModeContent/ModeContent.tsx'));
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
   const {
     selectedMode,
@@ -70,6 +72,7 @@ const App: React.FC = () => {
   if (!user) {
     return (
       <ErrorBoundary>
+        <ThemeToggle />
         <AuthPage />
       </ErrorBoundary>
     );
@@ -79,6 +82,7 @@ const App: React.FC = () => {
   if (!aiReady) {
     return (
       <div className="app-container">
+        <ThemeToggle />
         <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
         <div className="auth-form-container">
           <h2 className="section-title">API Key Configuration Required</h2>
@@ -105,13 +109,19 @@ const App: React.FC = () => {
     <Routes>
       <Route
         path="/profile"
-        element={<ProfilePage user={user} />}
+        element={
+          <>
+            <ThemeToggle />
+            <ProfilePage user={user} />
+          </>
+        }
       />
       <Route
         path="*"
         element={
           <ErrorBoundary>
             <div className="app-container">
+              <ThemeToggle />
               <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
 
               {/* Mode Selection */}
@@ -151,6 +161,14 @@ const App: React.FC = () => {
         }
       />
     </Routes>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 };
 

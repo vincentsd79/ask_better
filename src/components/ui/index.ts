@@ -4,3 +4,4 @@ export { Input } from './Input';
 export { Select } from './Select';
 export { ErrorMessage, LoadingSpinner } from './Common';
 export { ErrorBoundary } from './ErrorBoundary';
+export { LanguageSelector } from './LanguageSelector';

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '../ui';
 import { useAuth } from '../../hooks/useAuth';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface HeaderProps {
   onTitleClick?: () => void;
@@ -8,6 +8,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onTitleClick }) => {
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const handleProfileClick = () => {
     // You can implement navigation to the profile page here, e.g., using react-router
@@ -16,13 +17,24 @@ export const Header: React.FC<HeaderProps> = ({ onTitleClick }) => {
   };
 
   return (
-    <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <header style={{ 
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '1rem 0',
+      width: '100%'
+    }}>
+      {/* Left side - App title */}
       <h1 
         style={{ 
           margin: 0, 
           textAlign: 'left', 
           textShadow: '2px 2px 8px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.10)',
+          color: '#2F1B41',
           cursor: onTitleClick ? 'pointer' : 'default',
+          fontFamily: 'Poppins, sans-serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
           transition: 'color 0.2s ease'
         }}
         onClick={onTitleClick}
@@ -33,15 +45,26 @@ export const Header: React.FC<HeaderProps> = ({ onTitleClick }) => {
         }}
         onMouseLeave={(e) => {
           if (onTitleClick) {
-            e.currentTarget.style.color = '#333333';
+            e.currentTarget.style.color = '#2F1B41';
           }
         }}
       >
-        Ask Better
+        {t.appTitle}
       </h1>
+
+      {/* Right side - User info */}
       {user && (
-        <div className="user-display" style={{ display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer' }} onClick={handleProfileClick}>
-          <span>{user.name || user.email}</span>
+        <div 
+          style={{ 
+            fontSize: '1.5em', 
+            color: '#4A2F6C', 
+            fontWeight: 600,
+            cursor: 'pointer',
+            marginRight: '1rem'
+          }}
+          onClick={handleProfileClick}
+        >
+          {user.name || user.email}
         </div>
       )}
     </header>

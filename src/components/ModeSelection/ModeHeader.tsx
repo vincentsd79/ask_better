@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Select } from '../ui';
-import { MODES, TONE_OPTIONS } from '../../constants';
+import { MODES, getToneOptions } from '../../constants';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ModeHeaderProps {
   selectedMode: string;
@@ -15,7 +16,26 @@ export const ModeHeader: React.FC<ModeHeaderProps> = ({
   onToneChange,
   onModeChange,
 }) => {
+  const { language } = useLanguage();
   const currentMode = MODES[selectedMode];
+  const toneOptions = getToneOptions(language);
+
+  // Get mode display name based on language
+  const getModeDisplayName = (modeId: string) => {
+    const { t } = useLanguage();
+    switch (modeId) {
+      case 'PROMPT_BETTER':
+        return t.promptBetter;
+      case 'ASK_BETTER':
+        return t.askBetter;
+      case 'CODING_MODE':
+        return t.codingMode;
+      case 'MARKETING_101':
+        return t.marketing101;
+      default:
+        return currentMode.displayName;
+    }
+  };
 
   return (
     <>
@@ -27,21 +47,27 @@ export const ModeHeader: React.FC<ModeHeaderProps> = ({
           variant="primary"
           style={{ width: '80px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
         >
-          <span style={{ fontWeight: 600, fontSize: '1em' }}>Change Mode</span>
+          <span style={{ fontWeight: 600, fontSize: '1em' }}>
+            {language === 'vi' ? 'Đổi Chế Độ' : 'Change Mode'}
+          </span>
         </Button>
         <h2 className="section-title" style={{ marginBottom: 0, textAlign: 'left' }}>
-          {currentMode.displayName}
+          {getModeDisplayName(selectedMode)}
         </h2>
       </div>
 
       {/* Tone Selection */}
       <div className="output-params-selector">
-        <h3 className="section-title">Select Tone</h3>
+        <h3 className="section-title">
+          {language === 'vi' ? 'Chọn Giọng Điệu' : 'Select Tone'}
+        </h3>
         <div className="param-controls-container">
           <div className="param-control">
-            <label>Tone:</label>
+            <label>
+              {language === 'vi' ? 'Giọng điệu:' : 'Tone:'}
+            </label>
             <div className="tone-radio-group">
-              {TONE_OPTIONS.map(option => (
+              {toneOptions.map(option => (
                 <label
                   key={option.value}
                   className={`tone-radio${selectedTone === option.value ? ' selected' : ''}`}
@@ -62,7 +88,7 @@ export const ModeHeader: React.FC<ModeHeaderProps> = ({
             <Select
               value={selectedTone}
               onChange={onToneChange}
-              options={TONE_OPTIONS}
+              options={toneOptions}
               className="tone-select-hidden"
             />
           </div>

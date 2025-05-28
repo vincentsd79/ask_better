@@ -1,4 +1,5 @@
 import { ToneOption, ModeConfig } from '../types';
+import { Language, translations } from './languages';
 
 // API Configuration
 export const API_MODEL_NAME = 'gemini-2.5-flash-preview-05-20';
@@ -6,7 +7,20 @@ export const CORRECTED_INPUT_PREFIX = "CORRECTED_INPUT:";
 export const BETTER_OUTPUT_PREFIX = "BETTER_OUTPUT:";
 export const BEST_OUTPUT_PREFIX = "BEST_OUTPUT:";
 
-// Tone Options
+// Tone Options - Function to get localized tone options
+export const getToneOptions = (language: Language): ToneOption[] => {
+  const t = translations[language];
+  return [
+    { value: 'NEUTRAL', label: t.neutral },
+    { value: 'FORMAL', label: t.formal },
+    { value: 'CASUAL', label: t.casual },
+    { value: 'FRIENDLY', label: t.friendly },
+    { value: 'ASSERTIVE', label: t.assertive },
+    { value: 'CONCISE_TONE', label: t.conciseTone },
+  ];
+};
+
+// Default tone options (for backward compatibility)
 export const TONE_OPTIONS: ToneOption[] = [
   { value: 'NEUTRAL', label: 'Neutral' },
   { value: 'FORMAL', label: 'Formal' },
@@ -15,6 +29,23 @@ export const TONE_OPTIONS: ToneOption[] = [
   { value: 'ASSERTIVE', label: 'Assertive' },
   { value: 'CONCISE_TONE', label: 'Concise (Tone)' },
 ];
+
+// Function to get localized placeholder text
+export const getPlaceholderText = (modeId: string, language: Language): string => {
+  const t = translations[language];
+  switch (modeId) {
+    case 'PROMPT_BETTER':
+      return t.promptBetterPlaceholder;
+    case 'ASK_BETTER':
+      return t.askBetterPlaceholder;
+    case 'CODING_MODE':
+      return t.codingModePlaceholder;
+    case 'MARKETING_101':
+      return t.marketing101Placeholder;
+    default:
+      return '';
+  }
+};
 
 // Application Modes Configuration
 export const MODES: Record<string, ModeConfig> = {

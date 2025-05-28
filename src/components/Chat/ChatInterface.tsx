@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Input, ErrorMessage } from '../ui';
 import { Message } from '../../types';
 
@@ -19,6 +19,46 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(({
   isLoading,
   error,
 }) => {
+  const messagesListRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-scroll to the bottom when messages change
+  useEffect(() => {
+    const scrollToBottom = () => {
+      if (messagesListRef.current) {
+        const { scrollHeight, clientHeight } = messagesListRef.current;
+        messagesListRef.current.scrollTo({
+          top: scrollHeight - clientHeight,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    // Small delay to ensure DOM is updated
+    const timeoutId = setTimeout(scrollToBottom, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }, [messages, isLoading]); // Trigger on messages change and loading state change
+
+  // Auto-focus input after AI responds (when loading changes from true to false)
+  useEffect(() => {
+    if (!isLoading && inputRef.current) {
+      // Small delay to ensure the input is ready and scroll animation is complete
+      const timeoutId = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 200);
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isLoading]);
+
+  // Focus input when component first mounts
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSendMessage();
@@ -44,8 +84,8 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(({
       </div>
       
       <div className="conversation-container">
-        <div className="messages-list">
-          {messages.map((message, index) => (
+        <div className="messages-list" ref={messagesListRef}>
+          {messages.map((message) => (
             <div 
               key={message.id}
               className={`message-wrapper ${message.sender}`}
@@ -82,6 +122,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(({
         <form onSubmit={handleSubmit} className="chat-input-form">
           <div className="input-wrapper">
             <Input
+              ref={inputRef}
               value={userInput}
               onChange={onInputChange}
               placeholder="Type your message..."
@@ -97,7 +138,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(({
               variant="primary"
               className="send-button"
             >
-              {isLoading ? '⏳' : '📤'}
+              {isLoading ? '⏳' : '↗'}
             </Button>
           </div>
         </form>
