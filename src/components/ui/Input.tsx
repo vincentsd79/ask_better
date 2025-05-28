@@ -10,6 +10,7 @@ export const Input: React.FC<InputProps> = ({
   rows = 3,
   className = '',
   type = 'text',
+  onEnterPress,
 }) => {
   const baseClass = multiline ? 'textarea' : 'input';
   const disabledClass = disabled ? `${baseClass}--disabled` : '';
@@ -22,11 +23,19 @@ export const Input: React.FC<InputProps> = ({
     onChange(e.target.value);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      onEnterPress?.();
+    }
+  };
+
   if (multiline) {
     return (
       <textarea
         value={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
         disabled={disabled}
         rows={rows}

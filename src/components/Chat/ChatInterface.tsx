@@ -24,6 +24,10 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(({
     onSendMessage();
   };
 
+  const handleEnterPress = () => {
+    onSendMessage();
+  };
+
   const formatTime = (timestamp?: Date) => {
     if (!timestamp) return '';
     return timestamp.toLocaleTimeString([], { 
@@ -85,6 +89,7 @@ export const ChatInterface = React.memo<ChatInterfaceProps>(({
               multiline={true}
               rows={1}
               className="chat-input"
+              onEnterPress={handleEnterPress}
             />
             <Button 
               type="submit"

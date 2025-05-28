@@ -78,6 +78,7 @@ export interface InputProps {
   rows?: number;
   className?: string;
   type?: string;
+  onEnterPress?: () => void;
 }
 
 export interface SelectProps {
