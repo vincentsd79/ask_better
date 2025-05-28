@@ -42,17 +42,10 @@ export const InputForm = React.memo<InputFormProps>(({
         
         <div style={{ 
           display: 'flex', 
-          justifyContent: 'space-between', 
+          justifyContent: 'flex-end', 
+          gap: '10px',
           marginTop: '10px' 
         }}>
-          <Button 
-            type="submit" 
-            disabled={isLoading || !userInput.trim()}
-            variant="primary"
-          >
-            {isLoading ? 'Processing...' : 'Submit'}
-          </Button>
-          
           {showReset && (
             <Button 
               type="button"
@@ -63,6 +56,14 @@ export const InputForm = React.memo<InputFormProps>(({
               Reset Conversation
             </Button>
           )}
+          
+          <Button 
+            type="submit" 
+            disabled={isLoading || !userInput.trim()}
+            variant="primary"
+          >
+            {isLoading ? 'Processing...' : 'Submit'}
+          </Button>
         </div>
         
         {error && <ErrorMessage message={error} />}
