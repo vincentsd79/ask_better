@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { Button } from '../ui';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import { getChatHistory } from '../../services/firebase';
 import { SUPPORTED_LANGUAGES } from '../../constants/languages';
 
@@ -147,16 +148,18 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
           {t.appTitle}
         </h1>
 
-        {/* Right side - User info */}
-        <div 
-          style={{ 
-            fontSize: '1.5em', 
-            color: '#4A2F6C', 
-            fontWeight: 600,
-            marginRight: '1rem'
-          }}
-        >
-          {user.name || user.email}
+        {/* Right side - Theme toggle and User info */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <ThemeToggle />
+          <div 
+            style={{ 
+              fontSize: '1.5em', 
+              color: '#4A2F6C', 
+              fontWeight: 600,
+            }}
+          >
+            {user.name || user.email}
+          </div>
         </div>
       </header>
       

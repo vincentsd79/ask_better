@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 interface HeaderProps {
   onTitleClick?: () => void;
@@ -52,21 +53,23 @@ export const Header: React.FC<HeaderProps> = ({ onTitleClick }) => {
         {t.appTitle}
       </h1>
 
-      {/* Right side - User info */}
-      {user && (
-        <div 
-          style={{ 
-            fontSize: '1.5em', 
-            color: '#4A2F6C', 
-            fontWeight: 600,
-            cursor: 'pointer',
-            marginRight: '1rem'
-          }}
-          onClick={handleProfileClick}
-        >
-          {user.name || user.email}
-        </div>
-      )}
+      {/* Right side - Theme toggle and User info */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <ThemeToggle />
+        {user && (
+          <div 
+            style={{ 
+              fontSize: '1.5em', 
+              color: '#4A2F6C', 
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+            onClick={handleProfileClick}
+          >
+            {user.name || user.email}
+          </div>
+        )}
+      </div>
     </header>
   );
 };

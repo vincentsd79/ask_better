@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Input, ErrorMessage, LoadingSpinner } from '../ui';
 import { useAuth } from '../../hooks/useAuth';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 export const AuthPage: React.FC = () => {
   const [authView, setAuthView] = useState<'login' | 'signup'>('login');
@@ -45,6 +46,9 @@ export const AuthPage: React.FC = () => {
 
   return (
     <div className="auth-container">
+      <div style={{ position: 'absolute', top: '1rem', right: '1rem', zIndex: 10 }}>
+        <ThemeToggle />
+      </div>
       <div className="auth-form-container">
         <h2 className="section-title">
           {authView === 'login' ? 'Login' : 'Sign Up'}
