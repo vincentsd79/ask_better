@@ -1,8 +1,11 @@
 import { useCallback } from 'react';
 import { useConversation } from './useConversation';
-import { useAppState } from './useAppState';
 
-export const useMode = (modeId: string) => {
+export const useMode = (
+  modeId: string,
+  selectedTone: string,
+  setUserInput: (input: string) => void
+) => {
   const {
     messages,
     visible: chatVisible,
@@ -13,12 +16,6 @@ export const useMode = (modeId: string) => {
     resetConversation,
     clearError,
   } = useConversation();
-
-  const {
-    userInput,
-    selectedTone,
-    setUserInput,
-  } = useAppState();
 
   const handleSubmit = useCallback(async (input: string) => {
     if (!input.trim() || isLoading) return;
@@ -54,12 +51,10 @@ export const useMode = (modeId: string) => {
     refinedOutputs,
     isLoading,
     error,
-    userInput,
     
     // Actions
     handleSubmit,
     handleSendMessage,
     handleReset,
-    setUserInput,
   };
 };

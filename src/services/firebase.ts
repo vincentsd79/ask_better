@@ -39,7 +39,13 @@ export class AuthService {
       });
       return { success: true, user };
     } catch (error: any) {
-      return { success: false, error: error.message };
+      let errorMessage = "Unable to create an account with these details.";
+      if (error.code === 'auth/weak-password') {
+        errorMessage = "Please use a stronger password.";
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = "Please enter a valid email address.";
+      }
+      return { success: false, error: errorMessage };
     }
   }
 
@@ -49,12 +55,12 @@ export class AuthService {
       return { success: true, user: userCredential.user };
     } catch (error: any) {
       let errorMessage = error.message;
-      if (error.code === 'auth/invalid-credential') {
+      if (
+        error.code === 'auth/invalid-credential' ||
+        error.code === 'auth/user-not-found' ||
+        error.code === 'auth/wrong-password'
+      ) {
         errorMessage = "Invalid email or password. Please try again.";
-      } else if (error.code === 'auth/user-not-found') {
-        errorMessage = "Invalid account, please signup.";
-      } else if (error.code === 'auth/wrong-password') {
-        errorMessage = "Wrong password. Please try again.";
       }
       return { success: false, error: errorMessage };
     }
@@ -78,7 +84,13 @@ export class AuthService {
       await sendPasswordResetEmail(auth, email);
       return { success: true };
     } catch (error: any) {
-      return { success: false, error: error.message };
+      if (error.code === 'auth/user-not-found') {
+        return { success: true };
+      }
+      const errorMessage = error.code === 'auth/invalid-email'
+        ? "Please enter a valid email address."
+        : "Unable to send a password reset email right now.";
+      return { success: false, error: errorMessage };
     }
   }
 }

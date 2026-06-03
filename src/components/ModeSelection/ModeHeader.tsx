@@ -16,13 +16,12 @@ export const ModeHeader: React.FC<ModeHeaderProps> = ({
   onToneChange,
   onModeChange,
 }) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   const currentMode = MODES[selectedMode];
   const toneOptions = getToneOptions(language);
 
   // Get mode display name based on language
   const getModeDisplayName = (modeId: string) => {
-    const { t } = useLanguage();
     switch (modeId) {
       case 'PROMPT_BETTER':
         return t.promptBetter;
