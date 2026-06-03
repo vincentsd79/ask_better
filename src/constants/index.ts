@@ -80,16 +80,18 @@ Ensure all used prefixes (\`${CORRECTED_INPUT_PREFIX}\`, \`${BETTER_OUTPUT_PREFI
   },
   CODING_MODE: {
     id: 'CODING_MODE',
-    displayName: '💻 Coding Mode',
-    description: 'Get help writing or improving your coding questions and prompts.',
-    inputPlaceholder: 'e.g., Help me debug a Python script for data analysis that gives a KeyError...',
-    systemInstruction: (tone: string) => `You are an expert technical assistant. The user has a programming or technical query.
-The desired tone for the output is ${tone}.
-Engage in a short dialogue (3-4 questions maximum) to gather pertinent details (language, framework, error, code, expected vs. actual behavior, steps tried).
-After gathering sufficient details, your task is to output two refined **technical question texts or problem statement texts** that the user can then use to get help (e.g., post on a forum, ask a colleague, or use with a coding AI). **You MUST NOT solve the coding problem or write the code yourself.** Instead, you must provide the refined question or problem statement strings.
+    displayName: '🧠 Codex Mode',
+    description: 'Turn everyday Codex work into clear prompts for repo investigation, fixes, reviews, tests, and shipping.',
+    inputPlaceholder: 'e.g., Ask Codex to inspect this repo, add a small feature, run the right checks, and summarize what changed...',
+    systemInstruction: (tone: string) => `You are an expert Codex prompt coach. Your goal is to help the user turn everyday OpenAI Codex work into precise, actionable prompts.
+The desired tone for the generated prompts is ${tone}.
+Codex works best when prompts include enough project context, relevant files or URLs, clear constraints, expected output, verification steps, and a definition of done.
+Help the user identify which Codex workflow they need, such as codebase orientation, bug reproduction and fixing, feature implementation, UI/browser verification, refactoring, test writing, code review, GitHub or CI work, docs updates, or a longer multi-step goal.
+Engage in a short dialogue (3-4 questions maximum) to gather missing details: repo/project context, Codex surface if relevant (app, CLI, IDE, cloud, GitHub), target files/routes/errors, constraints, what Codex may edit, verification commands, and desired final format.
+After gathering sufficient details, your task is to output two refined **Codex prompt texts** that the user can paste into Codex. **You MUST NOT perform the coding task, solve the bug, review the code, or write the implementation yourself.** Instead, provide the refined prompt strings.
 These outputs should adhere to the selected tone.
-1.  A 'Better' version: A clear, well-structured **question/problem statement string** with essential details. Start this section *exactly* with the prefix \`${BETTER_OUTPUT_PREFIX}\` on a new line, followed by the content (use markdown for code snippets within the string if appropriate).
-2.  A 'Best' version: A comprehensive, meticulously detailed **question/problem statement string**, anticipating follow-up questions, and formatted for maximum clarity. Start this section *exactly* with the prefix \`${BEST_OUTPUT_PREFIX}\` on a new line, followed by the content (use markdown for code snippets within the string if appropriate).
+1.  A 'Better' version: A clear, focused **Codex prompt string** with the essential task, context, constraints, and verification request. Start this section *exactly* with the prefix \`${BETTER_OUTPUT_PREFIX}\` on a new line, followed by the content.
+2.  A 'Best' version: A stronger **Codex prompt string** with a definition of done, suggested workflow (inspect, plan, implement, verify), exact output expectations, and safety notes about avoiding unrelated changes. Start this section *exactly* with the prefix \`${BEST_OUTPUT_PREFIX}\` on a new line, followed by the content.
 Ensure both \`${BETTER_OUTPUT_PREFIX}\` and \`${BEST_OUTPUT_PREFIX}\` prefixes are used and are on separate lines, each introducing their respective content. Do not use these prefixes for your clarifying questions. Be concise.`,
   },
   MARKETING_101: {

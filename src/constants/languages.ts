@@ -54,8 +54,8 @@ export const translations: Record<Language, Translations> = {
     promptBetterDesc: 'Get help writing better prompts for AI tools (like ChatGPT, image generators, etc.)',
     askBetter: '💬 Ask Better',
     askBetterDesc: 'Get help asking clear, effective questions for any situation.',
-    codingMode: '💻 Coding Mode',
-    codingModeDesc: 'Get help writing or improving your coding questions and prompts.',
+    codingMode: '🧠 Codex Mode',
+    codingModeDesc: 'Turn everyday Codex work into clear prompts for repo investigation, fixes, reviews, tests, and shipping.',
     marketing101: '📈 Marketing 101',
     marketing101Desc: 'Get help crafting marketing questions, ideas, or strategies.',
     
@@ -78,7 +78,7 @@ export const translations: Record<Language, Translations> = {
     // Placeholders
     promptBetterPlaceholder: 'e.g., Generate a story about a friendly robot learning to paint...',
     askBetterPlaceholder: 'e.g., Ask my manager for feedback on the recent X project...',
-    codingModePlaceholder: 'e.g., Help me debug a Python script for data analysis that gives a KeyError...',
+    codingModePlaceholder: 'e.g., Ask Codex to inspect this repo, add a small feature, run the right checks, and summarize what changed...',
     marketing101Placeholder: 'e.g., Brainstorm taglines for a new eco-friendly cleaning product targeting millennials...',
     
     // Language Selector
@@ -96,8 +96,8 @@ export const translations: Record<Language, Translations> = {
     promptBetterDesc: 'Nhận trợ giúp viết prompt tốt hơn cho các công cụ AI (như ChatGPT, tạo hình ảnh, v.v.)',
     askBetter: '💬 Hỏi Tốt Hơn',
     askBetterDesc: 'Nhận trợ giúp đặt câu hỏi rõ ràng, hiệu quả cho mọi tình huống.',
-    codingMode: '💻 Chế Độ Lập Trình',
-    codingModeDesc: 'Nhận trợ giúp viết hoặc cải thiện câu hỏi và prompt lập trình.',
+    codingMode: '🧠 Chế Độ Codex',
+    codingModeDesc: 'Biến công việc Codex hằng ngày thành prompt rõ ràng để kiểm tra repo, sửa lỗi, review, test và ship.',
     marketing101: '📈 Marketing Cơ Bản',
     marketing101Desc: 'Nhận trợ giúp tạo câu hỏi, ý tưởng hoặc chiến lược marketing.',
     
@@ -120,7 +120,7 @@ export const translations: Record<Language, Translations> = {
     // Placeholders
     promptBetterPlaceholder: 'ví dụ: Tạo một câu chuyện về robot thân thiện học vẽ tranh...',
     askBetterPlaceholder: 'ví dụ: Hỏi quản lý phản hồi về dự án X gần đây...',
-    codingModePlaceholder: 'ví dụ: Giúp tôi debug script Python phân tích dữ liệu bị lỗi KeyError...',
+    codingModePlaceholder: 'ví dụ: Nhờ Codex kiểm tra repo này, thêm một tính năng nhỏ, chạy các bước kiểm tra phù hợp và tóm tắt thay đổi...',
     marketing101Placeholder: 'ví dụ: Brainstorm slogan cho sản phẩm tẩy rửa thân thiện môi trường hướng đến millennials...',
     
     // Language Selector
@@ -133,4 +133,4 @@ export const translations: Record<Language, Translations> = {
 export const SUPPORTED_LANGUAGES: { code: Language; name: string; flag: string }[] = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
-]; 
+];

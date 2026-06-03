@@ -23,8 +23,10 @@ const AppContent: React.FC = () => {
   const {
     selectedMode,
     selectedTone,
+    userInput,
     setSelectedMode,
     setSelectedTone,
+    setUserInput,
     resetAppState,
   } = useAppState();
 
@@ -34,12 +36,10 @@ const AppContent: React.FC = () => {
     refinedOutputs,
     isLoading: conversationLoading,
     error: conversationError,
-    userInput,
     handleSubmit,
     handleSendMessage,
     handleReset,
-    setUserInput,
-  } = useMode(selectedMode || '');
+  } = useMode(selectedMode || '', selectedTone, setUserInput);
 
   const navigate = useNavigate();
 
@@ -88,9 +88,9 @@ const AppContent: React.FC = () => {
         <div className="app-content">
           <div className="app-container">
             <Header onTitleClick={selectedMode ? handleModeChange : undefined} />
-            <div className="auth-form-container">
-              <h2 className="section-title">API Key Configuration Required</h2>
-              <p>The VITE_GEMINI_API_KEY environment variable is not configured. Please set it up to use the application.</p>
+              <div className="auth-form-container">
+              <h2 className="section-title">AI Backend Configuration Required</h2>
+              <p>The AI backend endpoint is not configured. Please set it up to use the application.</p>
             </div>
           </div>
         </div>

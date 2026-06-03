@@ -88,7 +88,7 @@ export const AuthPage: React.FC = () => {
           >
             {loading ? 'Loading...' : (authView === 'login' ? 'Login' : 'Sign Up')}
           </Button>
-          {(authView === 'login' && error && (error.includes('Wrong password') || error.includes('Invalid email or password'))) && (
+          {(authView === 'login' && error && error.includes('Invalid email or password')) && (
             <div style={{ marginBottom: '1rem' }}>
               <Button
                 className="auth-reset-password-button"
